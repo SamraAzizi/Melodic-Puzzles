@@ -37,3 +37,25 @@ export function GameBoard() {
       audioEngine.stop();
     };
   }, []);
+
+  useEffect(() => {
+    if (!isPlaying) return;
+
+    const beatDuration = (60 / bpm) * 1000;
+    const interval = setInterval(() => {
+      setCurrentBeat((prev) => {
+        const nextBeat = (prev + 1) % GRID_SIZE;
+        
+        // Play active tiles at current beat
+        tiles.forEach((tile, index) => {
+          if (tile.active && index === nextBeat) {
+            audioEngine.playNote(tile.type, tile.index, 0.3);
+          }
+        });
+
+        return nextBeat;
+      });
+    }, beatDuration);
+
+    return () => clearInterval(interval);
+  }, [isPlaying, tiles, bpm]);
