@@ -59,3 +59,20 @@ export function GameBoard() {
 
     return () => clearInterval(interval);
   }, [isPlaying, tiles, bpm]);
+  const toggleTile = (index: number) => {
+    setTiles((prev) =>
+      prev.map((tile, i) =>
+        i === index ? { ...tile, active: !tile.active } : tile
+      )
+    );
+    
+    // Play the note immediately when clicked
+    const tile = tiles[index];
+    audioEngine.playNote(tile.type, tile.index, 0.3);
+  };
+
+  const handleClear = () => {
+    setTiles((prev) => prev.map((tile) => ({ ...tile, active: false })));
+    setIsPlaying(false);
+    setCurrentBeat(0);
+  };
