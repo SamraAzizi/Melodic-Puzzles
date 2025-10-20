@@ -18,3 +18,22 @@ export function GameBoard() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentBeat, setCurrentBeat] = useState(0);
   const [bpm] = useState(120);
+  useEffect(() => {
+    // Initialize audio engine
+    audioEngine.initialize();
+
+    // Initialize tiles
+    const initialTiles: TileState[] = [];
+    for (let i = 0; i < GRID_SIZE; i++) {
+      initialTiles.push({
+        type: instruments[Math.floor(i / 2) % instruments.length],
+        index: i % 8,
+        active: false,
+      });
+    }
+    setTiles(initialTiles);
+
+    return () => {
+      audioEngine.stop();
+    };
+  }, []);
