@@ -97,3 +97,31 @@ export function GameBoard() {
         >
           {isPlaying ? (
             <></>
+
+
+            <Pause className="mr-2 h-5 w-5" />
+              Pause
+            </>
+          ) : (
+            <>
+              <Play className="mr-2 h-5 w-5" />
+              Play
+            </>
+          )}
+        </Button>
+        
+        <Button
+          onClick={handleClear}
+          size="lg"
+          variant="outline"
+          className="border-primary/50 hover:bg-primary/10"
+        >
+          <RotateCcw className="mr-2 h-5 w-5" />
+          Clear
+        </Button>
+
+        <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-border">
+          <Volume2 className="h-5 w-5 text-primary" />
+          <span className="text-sm font-medium">{bpm} BPM</span>
+        </div>
+      </div>
