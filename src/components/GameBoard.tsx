@@ -18,6 +18,7 @@ export function GameBoard() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentBeat, setCurrentBeat] = useState(0);
   const [bpm] = useState(120);
+
   useEffect(() => {
     // Initialize audio engine
     audioEngine.initialize();
@@ -59,6 +60,7 @@ export function GameBoard() {
 
     return () => clearInterval(interval);
   }, [isPlaying, tiles, bpm]);
+
   const toggleTile = (index: number) => {
     setTiles((prev) =>
       prev.map((tile, i) =>
@@ -76,6 +78,7 @@ export function GameBoard() {
     setIsPlaying(false);
     setCurrentBeat(0);
   };
+
   return (
     <div className="w-full max-w-6xl mx-auto p-8 space-y-8">
       {/* Header */}
@@ -96,10 +99,8 @@ export function GameBoard() {
           className="bg-gradient-primary hover:opacity-90 transition-all shadow-glow"
         >
           {isPlaying ? (
-            <></>
-
-
-            <Pause className="mr-2 h-5 w-5" />
+            <>
+              <Pause className="mr-2 h-5 w-5" />
               Pause
             </>
           ) : (
@@ -143,3 +144,22 @@ export function GameBoard() {
       {/* Legend */}
       <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
         {instruments.map((type) => (
+          <div
+            key={type}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-border"
+          >
+            <div className={`w-4 h-4 rounded-full ${tileColors[type]}`} />
+            <span className="text-sm font-medium capitalize">{type}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const tileColors: Record<InstrumentType, string> = {
+  synth: 'bg-synth',
+  bass: 'bg-bass',
+  drums: 'bg-drums',
+  melody: 'bg-melody',
+};
