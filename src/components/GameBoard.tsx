@@ -125,3 +125,21 @@ export function GameBoard() {
           <span className="text-sm font-medium">{bpm} BPM</span>
         </div>
       </div>
+
+      {/* Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-card/50 rounded-2xl border border-border/50 backdrop-blur-sm shadow-tile">
+        {tiles.map((tile, index) => (
+          <MusicTile
+            key={index}
+            type={tile.type}
+            index={tile.index}
+            isActive={tile.active}
+            isPlaying={isPlaying && currentBeat === index}
+            onClick={() => toggleTile(index)}
+          />
+        ))}
+      </div>
+
+      {/* Legend */}
+      <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+        {instruments.map((type) => (
