@@ -76,3 +76,24 @@ export function GameBoard() {
     setIsPlaying(false);
     setCurrentBeat(0);
   };
+  return (
+    <div className="w-full max-w-6xl mx-auto p-8 space-y-8">
+      {/* Header */}
+      <div className="text-center space-y-4">
+        <h1 className="text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+          Melodic Puzzles
+        </h1>
+        <p className="text-muted-foreground text-lg">
+          Click tiles to create music patterns • Play to hear your composition
+        </p>
+      </div>
+
+      {/* Controls */}
+      <div className="flex items-center justify-center gap-4">
+        <Button
+          onClick={() => setIsPlaying(!isPlaying)}
+          size="lg"
+          className="bg-gradient-primary hover:opacity-90 transition-all shadow-glow"
+        >
+          {isPlaying ? (
+            <></>
