@@ -38,4 +38,16 @@ export function MusicTile({ type, index, isActive, isPlaying, onClick }: MusicTi
         "transform hover:scale-105 active:scale-95",
         "backdrop-blur-sm"
       )}
-    ></button>
+    >
+      <span className={cn(
+        "transition-transform duration-200",
+        isActive && "animate-bounce-subtle"
+      )}>
+        {tileLabels[type]}
+      </span>
+      {isActive && (
+        <div className="absolute inset-0 rounded-xl animate-pulse-glow opacity-30 bg-gradient-to-br from-glow-primary to-glow-accent" />
+      )}
+    </button>
+  );
+}
