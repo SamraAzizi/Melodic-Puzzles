@@ -63,3 +63,13 @@ class AudioEngine {
     oscillator.start(now);
     oscillator.stop(now + duration);
   }
+  playSequence(sequence: Array<{ type: InstrumentType; index: number }>, bpm: number = 120) {
+    if (!this.audioContext) return;
+
+    const beatDuration = 60 / bpm;
+    sequence.forEach((note, i) => {
+      setTimeout(() => {
+        this.playNote(note.type, note.index, beatDuration * 0.8);
+      }, i * beatDuration * 1000);
+    });
+  }
