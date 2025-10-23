@@ -47,6 +47,7 @@ class AudioEngine {
       drums: 'square',
       melody: 'triangle',
     };
+
     oscillator.type = waveforms[type];
     oscillator.frequency.setValueAtTime(frequency, now);
 
@@ -63,6 +64,7 @@ class AudioEngine {
     oscillator.start(now);
     oscillator.stop(now + duration);
   }
+
   playSequence(sequence: Array<{ type: InstrumentType; index: number }>, bpm: number = 120) {
     if (!this.audioContext) return;
 
@@ -73,3 +75,14 @@ class AudioEngine {
       }, i * beatDuration * 1000);
     });
   }
+
+  stop() {
+    if (this.audioContext) {
+      this.audioContext.close();
+      this.audioContext = null;
+      this.masterGain = null;
+    }
+  }
+}
+
+export const audioEngine = new AudioEngine();
