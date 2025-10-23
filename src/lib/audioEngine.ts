@@ -47,3 +47,19 @@ class AudioEngine {
       drums: 'square',
       melody: 'triangle',
     };
+    oscillator.type = waveforms[type];
+    oscillator.frequency.setValueAtTime(frequency, now);
+
+    // ADSR envelope
+    gainNode.gain.setValueAtTime(0, now);
+    gainNode.gain.linearRampToValueAtTime(0.4, now + 0.01); // Attack
+    gainNode.gain.linearRampToValueAtTime(0.3, now + 0.05); // Decay
+    gainNode.gain.setValueAtTime(0.3, now + duration - 0.05); // Sustain
+    gainNode.gain.linearRampToValueAtTime(0, now + duration); // Release
+
+    oscillator.connect(gainNode);
+    gainNode.connect(this.masterGain);
+
+    oscillator.start(now);
+    oscillator.stop(now + duration);
+  }
