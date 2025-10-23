@@ -32,4 +32,18 @@ class AudioEngine {
   }
 
   playNote(type: InstrumentType, index: number, duration: number = 0.3) {
-    if (!this.audioC
+    if (!this.audioContext || !this.masterGain) return;
+
+    const now = this.audioContext.currentTime;
+    const frequency = this.getFrequency(type, index);
+
+    const oscillator = this.audioContext.createOscillator();
+    const gainNode = this.audioContext.createGain();
+
+    // Different waveforms for different instruments
+    const waveforms: Record<InstrumentType, OscillatorType> = {
+      synth: 'sine',
+      bass: 'sawtooth',
+      drums: 'square',
+      melody: 'triangle',
+    };
