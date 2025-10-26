@@ -32,7 +32,7 @@ type Action =
   | {
       type: ActionType["ADD_TOAST"];
       toast: ToasterToast;
-      }
+    }
   | {
       type: ActionType["UPDATE_TOAST"];
       toast: Partial<ToasterToast>;
@@ -49,6 +49,7 @@ type Action =
 interface State {
   toasts: ToasterToast[];
 }
+
 const toastTimeouts = new Map<string, ReturnType<typeof setTimeout>>();
 
 const addToRemoveQueue = (toastId: string) => {
@@ -83,6 +84,7 @@ export const reducer = (state: State, action: Action): State => {
 
     case "DISMISS_TOAST": {
       const { toastId } = action;
+
       // ! Side effects ! - This could be extracted into a dismissToast() action,
       // but I'll keep it here for simplicity
       if (toastId) {
@@ -98,7 +100,7 @@ export const reducer = (state: State, action: Action): State => {
         toasts: state.toasts.map((t) =>
           t.id === toastId || toastId === undefined
             ? {
-              ...t,
+                ...t,
                 open: false,
               }
             : t,
@@ -116,7 +118,7 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         toasts: state.toasts.filter((t) => t.id !== action.toastId),
       };
-      }
+  }
 };
 
 const listeners: Array<(state: State) => void> = [];
@@ -129,6 +131,7 @@ function dispatch(action: Action) {
     listener(memoryState);
   });
 }
+
 type Toast = Omit<ToasterToast, "id">;
 
 function toast({ ...props }: Toast) {
@@ -139,7 +142,7 @@ function toast({ ...props }: Toast) {
       type: "UPDATE_TOAST",
       toast: { ...props, id },
     });
-    const dismiss = () => dispatch({ type: "DISMISS_TOAST", toastId: id });
+  const dismiss = () => dispatch({ type: "DISMISS_TOAST", toastId: id });
 
   dispatch({
     type: "ADD_TOAST",
@@ -152,6 +155,7 @@ function toast({ ...props }: Toast) {
       },
     },
   });
+
   return {
     id: id,
     dismiss,
@@ -168,3 +172,15 @@ function useToast() {
       const index = listeners.indexOf(setState);
       if (index > -1) {
         listeners.splice(index, 1);
+      }
+    };
+  }, [state]);
+
+  return {
+    ...state,
+    toast,
+    dismiss: (toastId?: string) => dispatch({ type: "DISMISS_TOAST", toastId }),
+  };
+}
+
+export { useToast, toast };
