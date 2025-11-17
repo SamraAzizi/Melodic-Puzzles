@@ -52,8 +52,8 @@ Install Node.js: [Download from nodejs.org](https://nodejs.org/) or use [nvm](ht
 
 1. Clone the repository:
 ```sh
-git clone <YOUR_GIT_URL>
-cd <PROJECT_DIRECTORY>
+git clone https://github.com/SamraAzizi/Melodic-Puzzles.git
+cd Melodic-Puzzles
 ```
 
 2. Install dependencies:
